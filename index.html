@@ -32,6 +32,32 @@
         h1 {
             text-align: center;
         }
+    
+        /* New style for the text-based mute toggle */
+        #muteToggle {
+            display: block;
+            margin: 0 auto 15px auto; /* Centers it and adds 15px space below */
+            padding: 8px 16px;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #888; /* Grey text as requested */
+            text-align: center;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        /* Darken text on hover for better feedback */
+        #muteToggle:hover {
+            color: #333;
+        }
+        
+        /* This style applies the line-through when muted */
+        #muteToggle.muted {
+            text-decoration: line-through;
+            color: #aaa; /* Make it even lighter grey when muted */
+        }
+
         
         /* Style for the plot div */
         #tsnePlot {
@@ -109,6 +135,7 @@
 
         <figure>
             <div id="tsnePlot"></div>
+            <div id="muteToggle">Mute Audio</div>
             
             <div id="html-legend">
         <div class="legend-grid">

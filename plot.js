@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 1. Get references to our HTML elements
     const plotDiv = document.getElementById('tsnePlot');
+    // CHANGED: Get a reference to the new mute toggle
+    const muteToggle = document.getElementById('muteToggle');
+
+    let currentAudio = null;
+    let isMuted = false; // ADDED: State variable to track mute status
 
     // 2. Load the data from your JSON file
     fetch('assets/tsne.json')
@@ -46,12 +51,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const trace = {
                     x: clusterData.map(point => point.x),
                     y: clusterData.map(point => point.y),
-                    // ADDED: Add back text and customdata
                     text: clusterData.map(point => point.piece),
                     customdata: clusterData.map(point => point.audioFile),
                     type: 'scattergl',
                     mode: 'markers',
-                    hoverinfo: 'text', // CHANGED: Re-enabled hover
+                    hoverinfo: 'text',
                     marker: {
                         color: clusterColor,
                         size: 8,
@@ -64,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 5. Define the layout for the plot
             const layout = {
                 title: '',
-                hovermode: 'closest', // CHANGED: Re-enabled hover mode
+                hovermode: 'closest',
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
                 dragmode: false,
@@ -73,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     showgrid: false,
                     zeroline: false,
                     showline: false,
-                    showticklabels: false,  // Changed from ticklabels
+                    showticklabels: false,
                     ticks: ''
                 },
                 yaxis: {
@@ -81,20 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     showgrid: false,
                     zeroline: false,
                     showline: false,
-                    showticklabels: false,  // Changed from ticklabels
+                    showticklabels: false,
                     ticks: ''
                 },
-                
-                showlegend: false, // Keep legend hidden (using PDF)
-
-                // REMOVED: updatemenus (stop button)
-
-                margin: {
-                    l: 0,
-                    r: 0,
-                    b: 0,
-                    t: 0
-                }
+                showlegend: false,
+                margin: { l: 0, r: 0, b: 0, t: 0 }
             };
 
             const config = {
@@ -104,8 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             Plotly.newPlot(plotDiv, traces, layout, config);
-
-            let currentAudio = null; 
 
             plotDiv.on('plotly_click', function(data) {
                 const pointInfo = data.points[0];
@@ -119,7 +112,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 currentAudio = new Audio(audioSrc);
+                
+                // ADDED: Apply the current mute state to the new audio
+                currentAudio.muted = isMuted;
+                
                 currentAudio.play();
+            });
+
+            // CHANGED: Event listener for the mute toggle
+            muteToggle.addEventListener('click', function() {
+                // Toggle the mute state
+                isMuted = !isMuted;
+                
+                // Toggle the CSS class to show/hide the line-through
+                muteToggle.classList.toggle('muted', isMuted);
+                
+                // If audio is currently playing, apply the mute state immediately
+                if (currentAudio) {
+                    currentAudio.muted = isMuted;
+                }
+                console.log('Audio muted:', isMuted);
             });
 
         })
