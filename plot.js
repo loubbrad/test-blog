@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 hovermode: 'closest',
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
-                dragmode: false,
+                dragmode: 'pan', // Make sure this is 'pan'
                 xaxis: {
                     title: '',
                     showgrid: false,
@@ -94,8 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const config = {
                 displayModeBar: false,
-                scrollZoom: false,
-                doubleClick: false
+                scrollZoom: true,
+                doubleClick: true
             };
 
             Plotly.newPlot(plotDiv, traces, layout, config);
