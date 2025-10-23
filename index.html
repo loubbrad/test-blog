@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Piano Music Clustering</title>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            max-width: 650px;
+            line-height: 1.2;
+            font-size: 16px;
+            margin: 0 auto; /* Centers the content block */
+            font-family: 'Lato', sans-serif;
+        }
+        #main {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        p {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            hyphens: auto;
+            text-align: justify;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.4;
+        }
+        h1 {
+            text-align: center;
+        }
+        
+        /* Style for the plot div */
+        #tsnePlot {
+            width: 100%;
+            height: 450px;
+            margin: auto;
+        }
+        #tsnePlot,
+        #tsnePlot * {
+            cursor: default !important;
+        }
+        
+        /* Main legend container (the frame) */
+        #html-legend {
+            padding: 5px;
+            margin-top: 10px; /* Space above the legend */
+            box-sizing: border-box; /* Ensures padding doesn't break width */
+        }
+
+        /* Legend title "Composer" - REMOVED */
+        .legend-title {
+            font-size: 18px; /* from title_fontsize=24 */
+            font-weight: 700; /* Bolder, like a title */
+            text-align: center;
+            margin: 0 0 15px 0; /* No top margin, 15px bottom margin */
+            font-family: 'Lato', sans-serif; /* Matches body font */
+        }
+
+        /* The 4-column grid */
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* from ncol=4 */
+            row-gap: 10px; /* Space between rows */
+            column-gap: 5px; /* from columnspacing=0.13 (small space) */
+        }
+
+        /* Individual legend item (marker + text) */
+        .legend-item {
+            display: flex;
+            align-items: center; /* Vertically centers dot and text */
+        }
+
+        /* The colored dot (marker) */
+        .legend-marker {
+            width: 11px;  /* Simulates markerscale=1.7 */
+            height: 11px;
+            border-radius: 50%; /* Makes it a circle */
+            margin-right: 4px; /* Simulates handletextpad=0.0 (very small) */
+            flex-shrink: 0; /* Prevents the dot from shrinking */
+            
+            /* --- ADDED TO SHIFT MARKER UP --- */
+            position: relative;
+            top: -2px; 
+            /* --------------------------------- */
+        }
+
+        /* The composer name */
+        .legend-text {
+            font-size: 16px; /* from fontsize=24 */
+            font-family: serif; /* Matches the font from your screenshot */
+            white-space: nowrap; /* Tries to keep composer names on one line */
+        }
+
+
+        /* REMOVED: Audio player style (no longer needed) */
+    </style>
+</head>
+<body>
+
+    <div id="main">
+
+        <h1>Lorem ipsum</h1>
+        <p>Lorem ipsum</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Praesent semper feugiat nibh sed pulvinar proin gravida.</p>
+
+        <figure>
+            <div id="tsnePlot"></div>
+            
+            <div id="html-legend">
+        <div class="legend-grid">
+            
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #ff9896;"></span>
+                <span class="legend-text">Mozart</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #98df8a;"></span>
+                <span class="legend-text">Beethoven</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #aec7e8;"></span>
+                <span class="legend-text">Chopin</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #1f77b4;"></span>
+                <span class="legend-text">Scriabin</span>
+            </div>
+            
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #2ca02c;"></span>
+                <span class="legend-text">Haydn</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #ff7f0e;"></span>
+                <span class="legend-text">Schubert</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #7f7f7f;"></span>
+                <span class="legend-text">Satie</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #e377c2;"></span>
+                <span class="legend-text">Rachmaninoff</span>
+            </div>
+            
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #c7c7c7;"></span>
+                <span class="legend-text">Handel</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #d62728;"></span>
+                <span class="legend-text">Schumann</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #8c564b;"></span>
+                <span class="legend-text">Liszt</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #f7b6d2;"></span>
+                <span class="legend-text">Debussy</span>
+            </div>
+            
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #ffbb78;"></span>
+                <span class="legend-text">Bach</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #9467bd;"></span>
+                <span class="legend-text">Brahms</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #c5b0d5;"></span>
+                <span class="legend-text">Tchaikovsky</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker" style="background-color: #c49c94;"></span>
+                <span class="legend-text">Ravel</span>
+            </div>
+            
+        </div>
+    </div>
+
+            </figure>
+
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Viverra justo nec ultrices dui sapien eget mi proin sed. Nisl tincidunt eget nullam non nisi est sit amet.</p>
+
+        <script src="plot.js"></script>
+        
+    </div>
+
+</body>
+</html>
