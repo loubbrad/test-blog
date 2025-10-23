@@ -1,5 +1,6 @@
 // Wait for the DOM to be fully loaded before running the plot code
 document.addEventListener('DOMContentLoaded', function() {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     // 1. Get references to our HTML elements
     const plotDiv = document.getElementById('tsnePlot');
@@ -66,12 +67,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // 5. Define the layout for the plot
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             const layout = {
                 title: '',
                 hovermode: 'closest',
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
-                dragmode: 'pan', // Make sure this is 'pan'
+                dragmode: isMobile ? 'zoom' : 'pan', 
                 xaxis: {
                     title: '',
                     showgrid: false,
@@ -94,8 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const config = {
                 displayModeBar: false,
-                scrollZoom: true,
-                doubleClick: true
+                scrollZoom: !isMobile,
+                responsive: true,  
+                doubleClick: 'reset'
             };
 
             Plotly.newPlot(plotDiv, traces, layout, config);
